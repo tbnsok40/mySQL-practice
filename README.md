@@ -27,7 +27,7 @@ SELECT email, sign_up_day, FROM_UNIXTIME(UNIX_TIMESTAMP(sign_up_day)) FROM membe
 ```
 ### WHERE (조건문, if같은 존재)
 - %의 사용: 서울%, '서울'뒤에 문자열의 길이는 무관하다.
-- _의 사용: 서울_, '서울'뒤에 문자열의 길이는 1이다.
+- "\_" 의 사용: 서울_, '서울'뒤에 문자열의 길이는 1이다.
 ```sql
 -- 조건: gender는 m이면서 주소엔 서울이 들어가야하고, 나이는 20대
 SELECT * FROM member
