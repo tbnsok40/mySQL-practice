@@ -26,8 +26,8 @@ SELECT email, sign_up_day, UNIX_TIMESTAMP(sign_up_day) FROM member;
 SELECT email, sign_up_day, FROM_UNIXTIME(UNIX_TIMESTAMP(sign_up_day)) FROM member;
 ```
 ### WHERE (조건문, if같은 존재)
-
-
+- %의 사용: 서울%, '서울'뒤에 문자열의 길이는 무관하다.
+- _의 사용: 서울_, '서울'뒤에 문자열의 길이는 1이다.
 ```sql
 -- 조건: gender는 m이면서 주소엔 서울이 들어가야하고, 나이는 20대
 SELECT * FROM member
@@ -47,11 +47,15 @@ OR (gender = 'f' and height >= 170);
 
 - AND 는 OR 보다 높은 우선순위를 가지므로 괄호를 적절히 사용해주자.
 
+
+#### IN과 OR은 맥락이 같다
 ```sql
 -- 아래 둘은 같은 의미
 SELECT * FROM member WHERE age = 20 OR age = 30 OR age =40;
 SELECT * FROM member WHERE age IN (20, 30, 40);
-
+```
+### 대소문자 구분 => BINARY 사용: 대문자와 소문자를 이진코드로 구분해버린다.
+```sql
 SELECT email FROM member WHERE email LIKE BINARY '%M%'
 
 SELECT * FROM member ORDER BY height desc;
