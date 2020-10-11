@@ -1,4 +1,5 @@
 # mySQL-practice
+> Chapter 1. SQL 데이터 분석
 
 ## 201007
 ```sql
@@ -122,4 +123,6 @@ FROM copang_main.member;
 ```
 
 
+# mySQL-practice
+> Chapter 2. SQL 데이터 
 
