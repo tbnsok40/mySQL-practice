@@ -122,7 +122,58 @@ FROM copang_main.member;
 -- 4. CASE 함수
 ```
 
+``` sql
+-- DISTINCT 는 고유한 값만 추출 : pandas의 unique같은 것
+SELECT DISTINCT(gender) FROM member; -- 어떤 고유값들이 존재하는지 한번에 확인 가능
+SELECT DISTINCT(SUBSTRING(address, 1, 2)) FROM member; -- SUBSTRING이란 함수
+
+
+-- LENGTH, UPPER, LOWER 함수
+-- LPAD, RPAD 5자리로 만들어준다. 이미 5자리면 대체 문자가 안들어간다.
+SELECT address, LPAD(age, 5, '!!!') FROM copang_main.member;
+SELECT * FROM copang_main.member;
+
+-- LTRIM, RTRIM, TRIM
+> 추가해줄 것
+
+-- GROUPING
+SELECT gender, COUNT(*), AVG(height) 
+FROM member GROUP BY gender;
+SELECT gender, COUNT(*), MIN(weight) FROM copang_main.member GROUP BY gender;
+-- GROUP BY를 count, avg, min, max 등의 집계 함수와 같이 쓰면 더 다양하게 쓸 수 있다.
+
+
+-- 각 지역별 인원을 구하기 위해 COUNT(*)로 합계 인원을 counting
+SELECT SUBSTRING(address, 1, 2) as region,
+COUNT(*)
+FROM copang_main.member 
+GROUP BY SUBSTRING(address, 1, 2);
+
+
+SELECT SUBSTRING(address, 1, 2) as region,
+COUNT(*)
+FROM member 
+GROUP BY SUBSTRING(address, 1, 2),
+gender having region = '서울'
+AND gender = 'm';
+-- region 중 서울인 것만 추려내기, HAVING은 그루핑에서 추려내는 기능
+
+-- WHERE를 쓰면 안된다 => 의미는 비슷해보이지만, 목적이 다르다. 
+-- HAVING은 생성된 그루핑에서 필터링을 할 때만 사용한다.
+
+SELECT 
+SUBSTRING(address, 1, 2) as region,
+gender,
+COUNT(*)
+FROM member 
+GROUP BY SUBSTRING(address, 1, 2), gender
+HAVING region IS NOT NULL
+ORDER BY
+region ASC,
+gender DESC;
+
+-- GROUP BY를 '사용한 컬럼'과 '집계 함수' 이외에는 SELECT 문에 넣을 수 없다.
+```
 
 # mySQL-practice
 > Chapter 2. SQL 데이터 
-
