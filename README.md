@@ -122,44 +122,54 @@ FROM copang_main.member;
 -- 4. CASE 함수
 ```
 
+#### DISTINCT, SUBSTRING
 ``` sql
 -- DISTINCT 는 고유한 값만 추출 : pandas의 unique같은 것
-SELECT DISTINCT(gender) FROM member; -- 어떤 고유값들이 존재하는지 한번에 확인 가능
-SELECT DISTINCT(SUBSTRING(address, 1, 2)) FROM member; -- SUBSTRING이란 함수
+SELECT DISTINCT(gender) FROM member; -- 어떤 고유값들이 존재하는지 한번에 확인 가능 -> gender 컬럼이 가진 고유값들을 출력한다.
+SELECT DISTINCT(SUBSTRING(address, 1, 2)) FROM member; -- SUBSTRING 함수: 1위치에서 2개의 문자열 읽어들인다.(일종의 슬라이싱)
+```
 
-
--- LENGTH, UPPER, LOWER 함수
--- LPAD, RPAD 5자리로 만들어준다. 이미 5자리면 대체 문자가 안들어간다.
-SELECT address, LPAD(age, 5, '!!!') FROM copang_main.member;
-SELECT * FROM copang_main.member;
+#### LENGTH, UPPER, LOWER, LPAD, RPAD, LTRIM, RTRIM
+``` sql
+SELECT address, LPAD(age, 5, '!!!') FROM copang_main.member; -- LPAD, RPAD 5자리로 만들어준다('!!!'를 채움으로써) 이미 5자리면 대체 문자가 안들어간다.
 
 -- LTRIM, RTRIM, TRIM
 > 추가해줄 것
+```
 
+### GROUPING
+
+#### GROUP BY
+- GROUP BY를 '사용한 컬럼'과 '집계 함수' 이외에는 SELECT 문에 넣을 수 없다.
+- GROUP BY를 count, avg, min, max 등의 집계 함수와 같이 쓰면 더 다양하게 쓸 수 있다.
+``` sql
 -- GROUPING
-SELECT gender, COUNT(*), AVG(height) 
-FROM member GROUP BY gender;
+SELECT gender, COUNT(*), AVG(height) FROM member GROUP BY gender; -- GROUP BY에 속한 컬럼은 gender뿐이니, SELECT문에도 gender만 가능 + 집계함수(COUNT(), AVG())
 SELECT gender, COUNT(*), MIN(weight) FROM copang_main.member GROUP BY gender;
--- GROUP BY를 count, avg, min, max 등의 집계 함수와 같이 쓰면 더 다양하게 쓸 수 있다.
+```
 
-
+``` sql
 -- 각 지역별 인원을 구하기 위해 COUNT(*)로 합계 인원을 counting
 SELECT SUBSTRING(address, 1, 2) as region,
 COUNT(*)
 FROM copang_main.member 
 GROUP BY SUBSTRING(address, 1, 2);
+>>> 각 주소를 앞 2글자만 딴 region으로 재편성 -> 같은 이름(2글자) 끼리 count하여 counting 한다.
+```
 
+### HAVING
+- HAVING은 그루핑에서 필터링을 할 때만 사용한다.
+- WHERE를 쓰면 안된다 => 의미는 비슷해보이지만, 목적이 다르다. 
 
+``` sql
 SELECT SUBSTRING(address, 1, 2) as region,
 COUNT(*)
 FROM member 
 GROUP BY SUBSTRING(address, 1, 2),
-gender having region = '서울'
+gender HAVING region = '서울'
 AND gender = 'm';
--- region 중 서울인 것만 추려내기, HAVING은 그루핑에서 추려내는 기능
+-- region 중 서울인 것과 gender가 m인 것만 필터링. HAVING은 그루핑에서 추려내는 기능
 
--- WHERE를 쓰면 안된다 => 의미는 비슷해보이지만, 목적이 다르다. 
--- HAVING은 생성된 그루핑에서 필터링을 할 때만 사용한다.
 
 SELECT 
 SUBSTRING(address, 1, 2) as region,
@@ -172,7 +182,6 @@ ORDER BY
 region ASC,
 gender DESC;
 
--- GROUP BY를 '사용한 컬럼'과 '집계 함수' 이외에는 SELECT 문에 넣을 수 없다.
 ```
 
 # mySQL-practice
