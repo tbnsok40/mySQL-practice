@@ -183,6 +183,7 @@ region ASC,
 gender DESC;
 
 ```
-
+## 벡틱과 따옴표
+>
 # mySQL-practice
 > Chapter 2. SQL 데이터 
