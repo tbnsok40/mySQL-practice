@@ -262,7 +262,7 @@ ON i.id = s.item_id;
 >(1) 조인을 통해 생성된 결과 중에서 pizza_price_cost 테이블의 name 컬럼과, sales 테이블의 sales_volume 컬럼만 조회하세요. 
 >(2) 이때 sales_volume 컬럼에는 '판매량'이라는 alias를 붙이고, sales_volume이 NULL인 row의 경우에는 ‘판매량 정보 없음’으로 표시하세요. 
 > ```sql
-SELECT pcc.name, COALESCE(s.sales_volume, '판매량 정보 없음') as '판매량'
-FROM pizza_price_cost as pcc LEFT OUTER JOIN sales as s
-ON pcc.id = s.menu_id
-```
+> SELECT pcc.name, COALESCE(s.sales_volume, '판매량 정보 없음') as '판매량'
+> FROM pizza_price_cost as pcc LEFT OUTER JOIN sales as s
+> ON pcc.id = s.menu_id
+> ```
