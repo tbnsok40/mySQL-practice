@@ -234,5 +234,3 @@ FROM copang_main.member
 GROUP BY YEAR(sign_up_day), gender, SUBSTRING(address,1,2) WITH ROLLUP
 ORDER BY s_year DESC;
 ```
-# mySQL-practice
-> Chapter 2. SQL 데이터 
