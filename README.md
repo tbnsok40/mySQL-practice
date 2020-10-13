@@ -234,3 +234,35 @@ FROM copang_main.member
 GROUP BY YEAR(sign_up_day), gender, SUBSTRING(address,1,2) WITH ROLLUP
 ORDER BY s_year DESC;
 ```
+
+
+
+# mySQL-practice
+> Chapter 2. SQL 데이터 
+
+## Foreign Key
+(1) 참조를 하는 테이블인 stock 테이블을 ‘자식 테이블’
+(2) 참조를 당하는 테이블인 item 테이블을 ‘부모 테이블’
+
+## JOIN : LEFT OUTER JOIN, RIGHT OUTER JOIN, INNER JOIN
+> JOIN은 FK를 기준으로 하는 것이 맞지만, FK가 존재하지 않더라도 얼마든지 JOIN 할 수 있다.
+``` sql
+-- table에 AS 를 활용할 땐, SELECT 문에서도 alias를 써줄 수 있다.
+-- FROM 절에서 alias를 사용하는데, 다른 절에서도 alias로만 나타내야 에러가 나지 않는다.
+SELECT
+i.id,
+i.name, 
+s.item_id,
+s.inventory_count
+FROM item AS i RIGHT OUTER JOIN stock s -- alias를 쓸 땐, 의미를 명확히하기 위해 AS를 꼭 써주자
+ON i.id = s.item_id;
+```
+
+#### QUIZ
+>(1) 조인을 통해 생성된 결과 중에서 pizza_price_cost 테이블의 name 컬럼과, sales 테이블의 sales_volume 컬럼만 조회하세요. 
+>(2) 이때 sales_volume 컬럼에는 '판매량'이라는 alias를 붙이고, sales_volume이 NULL인 row의 경우에는 ‘판매량 정보 없음’으로 표시하세요. 
+> ```sql
+SELECT pcc.name, COALESCE(s.sales_volume, '판매량 정보 없음') as '판매량'
+FROM pizza_price_cost as pcc LEFT OUTER JOIN sales as s
+ON pcc.id = s.menu_id
+```
