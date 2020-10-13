@@ -266,3 +266,37 @@ ON i.id = s.item_id;
 > FROM pizza_price_cost as pcc LEFT OUTER JOIN sales as s
 > ON pcc.id = s.menu_id
 > ```
+
+### UNION
+- item 테이블과, new_item 테이블이 있을 때, item table에 있는 상품이 빠짐없이 new_item 에 있을지 확신이 안든다면
+- JOIN을 사용한다.
+
+SELECT
+old.id AS old_id,
+old.name AS old_name,
+new.id AS new_id,
+new.name AS new_name
+FROM item AS old LEFT OUTER JOIN item_new AS new
+-- FROM 절에서 alias를 해주었기에, 이걸 select 문에서 가져다 쓴다(JOIN할 때의 문법)
+ON old.id = new.id;
+-- LEFT OUTER JOIN 으로 누락된 정보들을 확인할 수 있다.
+
+
+
+-- new table에서 새롭게 추가된 항목 체크해보기
+SELECT
+old.id AS old_id,
+old.name AS old_name,
+new.id AS new_id,
+new.name AS new_name
+FROM item AS old RIGHT OUTER JOIN item_new AS new 
+ON old.id = new.id; -- ON 대신 USING(id) 사용해도 된다, 조인 조건으로 쓰인 두 컬럼의 이름이 같으면 ON 대신 USING을 쓰는 경우도 있습니다.
+-- WHERE old.id IS NULL; -- 새롭게 추가된것만 보기위함
+
+-- INNER JOIN을 쓰면 두 테이블에 모두 존재하는 아이템만 간추린다.
+
+
+-- 아예 두 테이블을 합쳐, 전체 상품을 조회
+SELECT * FROM item
+UNION
+SELECT * FROM item_new; -- itemitem겹치는 row는 한번만 보여줌
