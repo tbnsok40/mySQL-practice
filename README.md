@@ -270,6 +270,7 @@ ON i.id = s.item_id;
 ### UNION
 - item 테이블과, new_item 테이블이 있을 때, item table에 있는 상품이 빠짐없이 new_item 에 있을지 확신이 안든다면
 - JOIN을 사용한다.
+- UNION과 UNION ALL은 두 테이블을 합친다는 공통점은 있지만, 두 테이블의 중복 row를 제거하는지 여부에 따른 차이가 있다.
 
 SELECT
 old.id AS old_id,
@@ -300,3 +301,21 @@ ON old.id = new.id; -- ON 대신 USING(id) 사용해도 된다, 조인 조건으
 SELECT * FROM item
 UNION
 SELECT * FROM item_new; -- itemitem겹치는 row는 한번만 보여줌
+
+
+-- 세개의 테이블
+-- 각 상품별 평균 평점을 확인 => 몇명이 상품을 샀는지도 확인하여
+``` sql
+SELECT i.id, i.name, AVG(star), COUNT(*)
+FROM
+item AS i LEFT OUTER JOIN review AS r
+ON r.item_id = i.id
+LEFT OUTER JOIN member AS m
+ON r.mem_id = m.id
+WHERE m.gender = 'f'
+GROUP BY i.id, i.name
+HAVING COUNT(*) > 1
+ORDER BY 
+AVG(star) DESC,
+COUNT(*) DESC;
+```
