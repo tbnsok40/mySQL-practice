@@ -186,26 +186,25 @@ gender DESC;
 ## 벡틱과 따옴표
 >
 
-### ROLLUP
+### ROLLUP (말아 올리다) : 부분 총계 함수
 ``` sql
--- SELECT
--- SUBSTRING(address, 1, 2) as region,
--- gender,
--- COUNT(*)
--- FROM copang_main.member
--- GROUP BY 
--- SUBSTRING(address, 1, 2),
--- gender
--- WITH ROLLUP -- 얘가 들어감으로써, null값이 들어간(= 부분총계) 값이 생긴다.
--- HAVING region IS NOT NULL 
--- ORDER BY
--- region ASC,
--- gender DESC;
--- ROLLUP -- 말아 올리다 
+SELECT
+SUBSTRING(address, 1, 2) as region,
+gender,
+COUNT(*)
+FROM copang_main.member
+GROUP BY 
+SUBSTRING(address, 1, 2),
+gender
+WITH ROLLUP -- 얘가 들어감으로써, null값이 들어간(= 부분총계) 값이 생긴다.
+HAVING region IS NOT NULL 
+ORDER BY
+region ASC,
+gender DESC;
 ```
 
 ### ROLLUP 특성
-- 1. GROUP BY 뒤 기준들의 순서에 따라 WITH ROLLUP 의 결과도 달라집니다.
+1. GROUP BY 뒤 기준들의 순서에 따라 WITH ROLLUP 의 결과도 달라집니다.
 ``` sql
 SELECT
 SUBSTRING(address, 1, 2) as region,
@@ -221,7 +220,7 @@ ORDER BY
 region ASC,
 gender DESC;
 ```
-- 2. NULL임을 나타내기 위해 쓰인 NULL vs. 부분 총계을 나타내기 위해 쓰인 NULL => GROUPING함수를 써서 해결
+2. NULL임을 나타내기 위해 쓰인 NULL vs. 부분 총계을 나타내기 위해 쓰인 NULL => GROUPING함수를 써서 해결
 ``` sql
 SELECT 
 YEAR(sign_up_day) AS s_year,
