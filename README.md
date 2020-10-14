@@ -343,15 +343,17 @@ HAVING COUNT(i.registration_date) > 10;
 ## 서브쿼리
 - 전체 sql문에서 다른 sql 자체를 서브로 사용
 - 괄호로 서브쿼리를 꼭 감싸줄 것, inner query라고도 한다.
+``` sql
 SELECT 
 id,
 name,
 price,
 (SELECT AVG(price) FROM item) AS AVG_price
 FROM item;
+```
 
-
--- 서브쿼리를 이용하여, 가격이 평균가보다 높은 row를 탐색
+- 서브쿼리를 이용하여, 가격이 평균가보다 높은 row를 탐색
+``` sql
 SELECT 
 id,
 name,
@@ -359,8 +361,9 @@ price,
 (SELECT AVG(price) FROM item) AS avg_price
 FROM item
 WHERE price > (SELECT AVG(price) FROM item);
-
--- IN을 활용한 서브쿼리 생성
+```
+```sql
+IN을 활용한 서브쿼리 생성
 SELECT * FROM item
 WHERE id IN -- item컬럼의 id값이, IN 이후의 서브쿼리에 존재하는 녀석들만 나타내게 한다 
 (
@@ -368,10 +371,11 @@ SELECT item_id
 FROM review
 GROUP BY item_id HAVING COUNT(*) >=3
 );
+```
 
--- IN, ANY(= SOME), ALL
--- 1. ANY는 서브쿼리 내용의 하나라도 만족하면 되는 것이고
--- 2. ALL은 서브쿼리 내용의 모두를 만족해야하는 것.
+- IN, ANY(= SOME), ALL
+1. ANY는 서브쿼리 내용의 하나라도 만족하면 되는 것이고
+2. ALL은 서브쿼리 내용의 모두를 만족해야하는 것.
 
 
 ## Quiz
