@@ -1,5 +1,6 @@
 # mySQL-practice
-> Chapter 1. SQL 데이터 분석
+
+# Chapter 1. SQL 데이터 분석
 
 ## 201007
 ```sql
@@ -234,11 +235,6 @@ FROM copang_main.member
 GROUP BY YEAR(sign_up_day), gender, SUBSTRING(address,1,2) WITH ROLLUP
 ORDER BY s_year DESC;
 ```
-
-
-
-# mySQL-practice
-> Chapter 2. SQL 데이터 
 
 ## Foreign Key
 (1) 참조를 하는 테이블인 stock 테이블을 ‘자식 테이블’
