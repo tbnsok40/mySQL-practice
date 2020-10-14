@@ -443,3 +443,18 @@ FROM copang_main.member;
 > 1. 사용자에게 높은 편의성 제공 -> 필요한 테이블 재사용 가능
 > 2. 기존 테이블 구조를 변형시키지 않으면서, 다양한 데이터 분석 가능
 > 3. 데이터 보안 제공 -> 테이블에 민감정보가 포한된 컬럼은 제외하여 뷰를 만들어 보안 지킬 수 있다.
+
+
+#### 실무에서 첫번째로 해야 할 
+1. 존재하는 DB 파악
+> SHOW DATABASES;
+> use <DB이름>;
+
+2. 존재하는 Table 파악
+> SHOW FULL TABLES IN copang_main;
+
+3. 한 테이블의 컬럼 구조 파악
+> DESCRIBE item;
+> -- item은 table이름
+
+4. Foreign Key 파익
