@@ -130,8 +130,9 @@ FROM copang_main.member;
 ```
 
 #### DISTINCT, SUBSTRING
+- SUBSTRING: 문자열 슬라이싱
+- DISTINCT 는 고유한 값만 추출 : pandas의 unique같은 것
 ``` sql
--- DISTINCT 는 고유한 값만 추출 : pandas의 unique같은 것
 SELECT DISTINCT(gender) FROM member; -- 어떤 고유값들이 존재하는지 한번에 확인 가능 -> gender 컬럼이 가진 고유값들을 출력한다.
 SELECT DISTINCT(SUBSTRING(address, 1, 2)) FROM member; -- SUBSTRING 함수: 1위치에서 2개의 문자열 읽어들인다.(일종의 슬라이싱)
 ```
@@ -144,9 +145,9 @@ SELECT address, LPAD(age, 5, '!!!') FROM copang_main.member; -- LPAD, RPAD 5자�
 > 추가해줄 것
 ```
 
-### GROUPING
+### GROUPING : 그룹화 하여 데이터 조회 / 컬럼에 있는 데이터를 그룹화
 
-#### GROUP BY
+#### GROUP BY : WHERE 절과 양립할 수 없다 💥
 - GROUP BY를 '사용한 컬럼'과 '집계 함수' 이외에는 SELECT 문에 넣을 수 없다.
 - GROUP BY를 count, avg, min, max 등의 집계 함수와 같이 쓰면 더 다양하게 쓸 수 있다.
 ``` sql
@@ -184,7 +185,7 @@ gender,
 COUNT(*)
 FROM member 
 GROUP BY SUBSTRING(address, 1, 2), gender
-HAVING region IS NOT NULL
+HAVING region IS NOT NULL -- SUBSTRING(address, 1, 2) 대신 region을 써준다.
 ORDER BY
 region ASC,
 gender DESC;
@@ -211,7 +212,7 @@ gender DESC;
 ```
 
 ### ROLLUP 특성
-1. GROUP BY 뒤 기준들의 순서에 따라 WITH ROLLUP 의 결과도 달라집니다.
+1. GROUP BY 뒤 기준들의 순서에 따라 WITH ROLLUP 의 결과도 달라진다.
 ``` sql
 SELECT
 SUBSTRING(address, 1, 2) as region,
@@ -221,7 +222,7 @@ FROM member
 GROUP BY 
 SUBSTRING(address, 1, 2),
 gender
-WITH ROLLUP -- 얘가 들어감으로써, null값이 들어간(= 부분총계) 값이 생긴다.
+WITH ROLLUP -- 얘가 들어감으로써, null값이 들어간(= 부분총계) 값이 생긴다 / ROLLUP이 없었으면, gender간의 총합만 나타날 뿐, gender를 합친 총합은 나타나지 않는다.
 HAVING region IS NOT NULL 
 ORDER BY 
 region ASC,
