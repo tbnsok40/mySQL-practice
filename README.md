@@ -444,6 +444,11 @@ FROM copang_main.member;
 > 2. 기존 테이블 구조를 변형시키지 않으면서, 다양한 데이터 분석 가능
 > 3. 데이터 보안 제공 -> 테이블에 민감정보가 포한된 컬럼은 제외하여 뷰를 만들어 보안 지킬 수 있다.
 
+```sql
+CREATE VIEW v_emp AS SELECT
+id, name, age, department, phone_num, hire_date FROM employee;
+SELECT * FROM v_emp;
+```
 
 #### 실무에서 첫번째로 해야 할 
 1. 존재하는 DB 파악
