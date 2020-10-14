@@ -76,7 +76,7 @@ SELECT * FROM member ORDER BY height desc;
 SELECT sign_up_day, email FROM member
 ORDER BY YEAR(sign_up_day) DESC, email ASC -- 가입년도가 같다면 이메일 기준 오름차순으로 정렬
 LIMIT 10;
-LIMIT 10, 2;
+LIMIT 10, 2; -- 10번 째 부터 시작해서 2 이후까지 출력. 즉, 11,12 번째를 출력
 
 -- CAST (data AS signed)
 ```
@@ -88,7 +88,6 @@ LIMIT 10, 2;
 SELECT MIN(height) FROM member;
 SELECT AVG(height) FROM member;
 -- AVG는 NULL값을 제외하고 평균을 계산한다.
-SELECT * FROM member WHERE MIN(height);
 ```
 
 #### COALESCE, NULL값 처리
@@ -105,11 +104,8 @@ SELECT * FROM member;
 SELECT AVG(age) FROM member WHERE age BETWEEN 5 AND 100;
 SELECT * FROM member WHERE address NOT LIKE '%호';
 ```
-``` sql
--- IS NULL과 NULL은 다르다
--- sql에서는 컬럼에 null값이 있으면 산술계산이 되지 않는다.
-SELECT height, weight, (weight)/((height/100)*(height/100)) AS BMI FROM copang_main.member;
-```
+- IS NULL과 NULL은 다르다
+- sql에서는 컬럼에 null값이 있으면 산술계산이 되지 않는다.
 
 ``` sql
 SELECT
@@ -438,6 +434,15 @@ FROM copang_main.member;
 
 -- 대신, FROM절에서 (SELECT weight / ((height / 100) * (height / 100)) AS 'BMI' FROM copang_main.member) AS subsequery_BMI
 -- 이렇게 BMI로 명명하면, CASE문에서도 BMI를 사용할 수 있게 된다.
+SELECT
+BMI, -- 여기에 weight / ((height/100) * (height/100)) AS BMI 이렇게 해놔서 에러가 생겼음, AS 구문을 쓸 필요가 없으니 BMI만 남겨준다.
+(CASE
+	WHEN BMI > 20 AND BMI < 25 THEN '정상'
+    ELSE '비정상'
+END)
+FROM (
+SELECT weight / ((height/100) * (height/100)) AS BMI FROM member
+) AS subquery;
 ```
 
 ## 뷰
