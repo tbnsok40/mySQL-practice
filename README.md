@@ -374,12 +374,13 @@ GROUP BY item_id HAVING COUNT(*) >=3
 -- 2. ALL은 서브쿼리 내용의 모두를 만족해야하는 것.
 
 
--- Quiz
--- review 테이블에서
--- (1) '2018년 12월 31일' 이전에 코팡 사이트에 등록된 상품들에 관한 리뷰들만 추려보겠습니다.
--- (2) 그리고 이때 review 테이블의 모든 컬럼들을 조회하세요.
--- *조인 말고 서브쿼리를 사용해서 문제를 해결해보세요.
+## Quiz
+- review 테이블에서
+- (1) '2018년 12월 31일' 이전에 코팡 사이트에 등록된 상품들에 관한 리뷰들만 추려보겠습니다.
+- (2) 그리고 이때 review 테이블의 모든 컬럼들을 조회하세요.
+- *조인 말고 서브쿼리를 사용해서 문제를 해결해보세요.
 
+``` sql
 SELECT * FROM review
 WHERE item_id IN 
 (
@@ -387,11 +388,12 @@ SELECT id FROM item
 WHERE YEAR(registration_date) < 2019
 -- WHERE registration_date < '2018-12-31'
 );
+```
+- FROM 절에 있는 쿼리 테이블(=서브 쿼리 자체)을 테이블로 만들어 버리기
+- 이 테이블을 derived테이블이라 하는데 꼭 alias를 붙여주어야 한다.
+*단일값(1row,1col)을 리턴하는 서브쿼리는 스칼라 서브쿼리라고한다.
 
--- FROM 절에 있는 쿼리 테이블
--- 서브 쿼리 자체를 테이블로 만들어 버리기
--- 이 테이블을 derived테이블이라 하는데 꼭 alias를 붙여주어야 한다.
--- 단일값(1row,1col)을 리턴하는 서브쿼리는 스칼라 서브쿼리라고한다.
+``` sql
 SELECT
     AVG(review_count),
     MAX(review_count),
@@ -405,7 +407,30 @@ ON r.mem_id = m.id
 GROUP BY SUBSTRING(address, 1, 2)
 HAVING region IS NOT NULL
 AND region != '안드') AS review_count_summary;
+```
 
+- 상관서브쿼리와 비상관 서브쿼리
 
--- 상관서브쿼리와 비상관 서브쿼리
+``` sql
+-- 서브쿼리로 더 간결해진 CASE문 사용하기. 아래 sql문을 보면, SELECT절에서 "BMI"로 alias 정한 것은 CASE문에서는 재사용하지 못한다.
+SELECT
+email,
+CONCAT(height, 'cm', ',', weight, 'kg') AS '키와 몸무게',
+weight / ((height / 100) * (height / 100)) AS 'BMI',
+CASE
+WHEN weight IS NULL OR height IS NULL THEN '비만 여부 알 수 없음'
+WHEN weight / ((height / 100) * (height / 100)) >= 25 THEN '과체중 또는 비만'
+WHEN weight / ((height / 100) * (height / 100)) >= 18
+AND weight / ((height / 100) * (height / 100)) < 25 THEN '정상'
+ELSE '저체중'
+END
+FROM copang_main.member;
 
+-- 대신, FROM절에서 (SELECT weight / ((height / 100) * (height / 100)) AS 'BMI' FROM copang_main.member) AS subsequery_BMI
+-- 이렇게 BMI로 명명하면, CASE문에서도 BMI를 사용할 수 있게 된다.
+```
+
+## 뷰
+- 서브쿼리 중첩 => 너무길고 중복되는 문제 발생(가독성 떨어져)
+- 뷰를 사용하여 해결. 뷰: 결과테이블이 가상으로 저장된 상태 = 가상테이블
+- 자주쓰는 서브쿼리가 있다면 뷰로 미리 저장을 해두어 재사용하도록 하자
