@@ -17,17 +17,24 @@ SELECT * FROM copang_main.member; -- copang_main이라는 db의 member table을 
 - DATE_SUB
 - UNIX_TIMESTAMP
 - FROM_UNIXTIME
+
 ```sql
 SELECT * FROM member WHERE YEAR(birthday)='1992'; 
 SELECT * FROM member WHERE MONTH(sign_up_day) IN (1,2,3); 
 SELECT * FROM member WHERE DAYOFMONTH(sign_up_day) BETWEEN 16 AND 31;
+
+-- = 등호는 그대로 비교, 
+-- IN은 여러 선택지 중에 선택, 
+-- BETWEEN은 범위내에서 선택, a AND b (a, b 모두 포함하는 범위)
+
 SELECT email, sign_up_day, DATEDIFF(sign_up_day, '2020-10-07') FROM member;
 SELECT email, sign_up_day, CURDATE(), DATEDIFF(sign_up_day, CURDATE()) FROM member; 
 SELECT email, sign_up_day, CURDATE(), DATEDIFF(sign_up_day, birthday)/365 FROM member; 
-SELECT email, sign_up_day, DATE_SUB(sign_up_day, INTERVAL 250 DAY), DATEDIFF(sign_up_day, 250) FROM member; 
+-- SELECT email, sign_up_day, DATE_SUB(sign_up_day, INTERVAL -30 DAY), DATEDIFF(sign_up_day,'2010-01-01') FROM member; 
 SELECT email, sign_up_day, UNIX_TIMESTAMP(sign_up_day) FROM member; 
 SELECT email, sign_up_day, FROM_UNIXTIME(UNIX_TIMESTAMP(sign_up_day)) FROM member;
 ```
+
 ### WHERE (조건문, if같은 존재)
 - %의 사용: 서울%, '서울'뒤에 문자열의 길이는 무관하다.
 - "\_" 의 사용: 서울_, '서울'뒤에 문자열의 길이는 1이다.
@@ -53,14 +60,17 @@ OR (gender = 'f' and height >= 170);
 
 #### IN과 OR은 맥락이 같다
 ```sql
--- 아래 둘은 같은 의미
+-- 아래 둘은 같은 의미: OR로 쓴 것을 IN으로 표현할 수 있다.
 SELECT * FROM member WHERE age = 20 OR age = 30 OR age =40;
 SELECT * FROM member WHERE age IN (20, 30, 40);
 ```
 ### 대소문자 구분 => BINARY 사용: 대문자와 소문자를 이진코드로 구분해버린다.
 ```sql
 SELECT email FROM member WHERE email LIKE BINARY '%M%'
+-- 대문자 M이 있는지 확인하는 query
+```
 
+```sql
 SELECT * FROM member ORDER BY height desc;
 
 SELECT sign_up_day, email FROM member
