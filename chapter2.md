@@ -136,3 +136,59 @@ INSERT INTO student (name, registrations_number) VALUES ('최태웅', 201313431)
 - 물론 이러한 내용들은 약간의 의견 차이가 있을 수 있으나 방금 설명드린 내용이 대부분의 DBMS에서 구현된 Primary Key와 Unique 속성 간의 차이입니다. 
 
 
+### CONSTRAINT : 제약조건 부여
+
+> ADD CONSTRAINT constraint_name CHECK (제약조건)
+```sql
+ALTER TABLE student ADD CONSTRAINT st_rule CHECK (registration_number < 3000000);
+
+INSERT INTO student (name, registration_number) VALUES ('이대위', 30000000); // 제약조건 위반 에러 발생
+ALTER TABLE student DROP CONSTRAINT st_rule; // 제약조건 삭제 (DROP)
+INSERT INTO student (name, registration_number) VALUES ('이대위', 30000000); // 정상작동
+SELECT * FROM student;
+```
+* 제약사항을 세심하게 걸어줄 수록 양질의 데이터베이스 만들 수 있다.
+
+#### 다중 제약조건 설정
+```sql
+ALTER TABLE student
+ADD CONSTRAINT st_rule
+CHECK (email LIKE '%@%' AND gender IN ('m','f')); 
+```
+
+
+### 테이블 이름 수정/ 테이블 복사, 삭제
+``` sql
+-- 테이블 이름 바꾸기
+RENAME TABLE student TO undergraduate;
+
+-- 테이블 복사
+CREATE TABLE copy_of_undergraduate AS SELECT * FROM undergraduate;
+SELECT * FROM copy_of_undergraduate;
+
+-- 테이블 삭제
+DROP TABLE copy_of_undergraduate;
+```
+### 테이블 내부 row 삭제
+```sql
+DELETE FROM student;
+TRUNCATE student;
+```
+
+### 테이블 구조 복사
+
+```sql
+CREATE TABLE copy_of_undergraduate LIKE undergraduate;
+
+SELECT * FROM copy_of_undergraduate;
+```
+
+#### 복사한 구조에 row 복사
+```sql
+INSERT INTO copy_of_undergraduate SELECT * FROM undergraduate; // SELECT 절을 그대로 가져온다
+
+-- major가 101인 row만 가져와 복사하기(조건에 맞는 컬럼만 복사해오기)
+INSERT INTO copy_of_undergraduate 
+SELECT * FROM undergraduate WHERE major = 101;
+```
+
