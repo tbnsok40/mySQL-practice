@@ -160,25 +160,29 @@ CHECK (email LIKE '%@%' AND gender IN ('m','f'));
 ```
 
 
-### 테이블 이름 수정/ 테이블 복사, 삭제
+## 테이블 이름 수정/ 테이블 복사, 삭제
+
+### 테이블 이름 바꾸기
 ``` sql
--- 테이블 이름 바꾸기
 RENAME TABLE student TO undergraduate;
-
--- 테이블 복사
-CREATE TABLE copy_of_undergraduate AS SELECT * FROM undergraduate;
+```
+### 테이블 복사
+```sql
+CREATE TABLE copy_of_undergraduate SELECT * FROM undergraduate;
 SELECT * FROM copy_of_undergraduate;
+```
 
--- 테이블 삭제
+### 테이블 삭제 : DROP
+```
 DROP TABLE copy_of_undergraduate;
 ```
-### 테이블 내부 row 삭제
+### 테이블 내부 row 삭제 : DELETE  
 ```sql
 DELETE FROM student;
 TRUNCATE student;
 ```
 
-### 테이블 구조 복사
+### 테이블 구조 복사 : LIKE
 
 ```sql
 CREATE TABLE copy_of_undergraduate LIKE undergraduate;
@@ -194,6 +198,7 @@ INSERT INTO copy_of_undergraduate SELECT * FROM undergraduate; // SELECT 절을 
 INSERT INTO copy_of_undergraduate 
 SELECT * FROM undergraduate WHERE major = 101;
 ```
+<hr>
 
 
 ### Foreign Key와 참조 무결성
