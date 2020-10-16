@@ -218,3 +218,38 @@ SELECT * FROM undergraduate WHERE major = 101;
 - set null : pk 변경 시, fk는 null값으로 변경
 
 #### ON DELETE와 ON UPDATE가 꼭 같은 정책을 설정해야 할 필요는 없다. 상황에 맞는 설정을 해주면 된다.
+
+### FOREIGN KEY 설정
+``` sql
+ALTER TABLE member
+ADD CONSTRAINT fk_review_member
+FOREIGN KEY (mem_id)
+REFERENCES member(id)
+ON DELETE RESTRICT
+ON UPDATE RESTRICT;
+```
+### FOREIGN KEY 제거
+```sql
+ALTER TABLE review
+DROP FOREIGN KEY fk_review_table;
+```
+
+## Schema 스키마
+1. 데이터베이스에 어떤 테이블들이 있고, 
+2. 각 테이블의 컬럼 구조와 각 컬럼의 데이터 타입 및 속성이 어떻게 되고, 
+3. 테이블 간의 관계는 어떻게 되는지 등과 같은,
+4. 데이터베이스에 관한 모든 설계사항을 스키마(Schema)라고 한다.
+
+(MySQL에서는 스키마를 그냥 Database와 같은 의미로 혼용)
+
+### 2가지 종류의 스키마 : 개념적 스키마, 물리적 스키마(=저장 스키마, 내부 스키마)
+
+#### 1. 개념적 스키마
+- 하나의 조직, 기관, 서비스 등에서 필요로 하는 DB 설계사항을 의미하는데
+- 일반적으로 언급하는 스키마의 내용에 해당 
+
+
+#### 2. 물리적 스키마
+- 데이터를 컴퓨터의 '저장장치'에 어떤 방식으로 저장할지에 관한 설계사항 => 일반 개발자나 사용자가 다룰 일이 거의 없다 (MySQL, Oracle과 같은 DBMS를 만드는 개발자들이 다루는 개념)
+- 즉, 똑같은 개념적 스키마라도, 사용하는 DBMS에 따라 해당 물리적 스키마는 전혀 달라진다 (같은 데이터라도 컴퓨터에 실제로 어떻게 저장할지는 DBMS에 따라 다르기에)
+- 바로 이 물리적 스키마 부분에서 각 DBMS만의 장단점, 특성들이 드러나게 되는 것입니다.
