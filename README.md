@@ -1,6 +1,7 @@
 # mySQL-practice
 
 # Chapter 1. SQL 데이터 분석
+<a href = 'https://github.com/tbnsok40/mySQL-practice/blob/master/chapter2.md'> Chapter 2. SQL 데이터 관리 </a>
 
 ## 201007
 ```sql
