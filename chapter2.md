@@ -1,4 +1,6 @@
 # CHAPTER 2. SQL로 하는 데이터 관리
+
+<a href = 'https://github.com/tbnsok40/mySQL-practice'> CHAPTER 1 SQL 데이터 분석 </a>
 ## DB 만들기
 ``` sql
 CREATE DATABASE IF NOT EXISTS course_rating ;
@@ -192,3 +194,27 @@ INSERT INTO copy_of_undergraduate
 SELECT * FROM undergraduate WHERE major = 101;
 ```
 
+
+### Foreign Key와 참조 무결성
+
+1. Foreign KEY 설정하기
+
+-- 한 테이블 내에서 다른 테이블의 특정 row를 식별하게 해주는 컬럼이 Foreign Key,
+-- Foreign Key로 다른 테이블의 Primary Key를 참조(reference)한다라고 표현.
+-- DBMS 상에서 한 테이블의 컬럼을, '이것이 다른 테이블의 컬럼을 참조하는 Foreign Key다'라고 설정해놓으면 ‘참조 무결성(Referential Integrity)'이라는 것을 지킬 수 있습니다.
+-- 결론: FK는 자식테이블의 부모테이블에 대한 참조 무결성을 지키기 위해 설정하는 것
+
+-- 만약 부모테이블의 pk에 없는 값을 자식테이블에서 생성하려 하면 참조 무결성을 위반하기 때문에 에러가 발생한다.
+
+-- ON DELETE에 대해서
+-- restrict 정책 : 제한하다 -> 참조하는 로우가 하나라도 있다면 삭제할 수 없다. => NO ACTION과 같은 의미(행동)
+-- 자식테이블을 고민하기 전에 애초에 부모테이블을 삭제하지 못하게 막아두는 것이
+-- CASCADE 정책 : 부모테이블의 ROW가 없어지면, 참조하는 자식테이블의 ROW도 갈아버린다.
+-- SET NULL 정책 : 부모테이블의 ROW를 삭제하면, 해당 ROW를 참조하는 자식테이블의 FK는 NULL값으로 SETTING된다.
+
+-- ON UPDATE에 대해서
+-- restrict : PK 변경 시 에러 발생
+-- cascade : pk 변경 시, fk도 연쇄 변경
+-- set null : pk 변경 시, fk는 null값으로 변경
+
+-- ON DELETE와 ON UPDATE가 꼭 같은 정책을 설정해야 할 필요는 없다. 상황에 맞는 설정을 해주면 된다.
