@@ -31,7 +31,7 @@ SELECT * FROM member WHERE DAYOFMONTH(sign_up_day) BETWEEN 16 AND 31;
 SELECT email, sign_up_day, DATEDIFF(sign_up_day, '2020-10-07') FROM member;
 SELECT email, sign_up_day, CURDATE(), DATEDIFF(sign_up_day, CURDATE()) FROM member; 
 SELECT email, sign_up_day, CURDATE(), DATEDIFF(sign_up_day, birthday)/365 FROM member; 
--- SELECT email, sign_up_day, DATE_SUB(sign_up_day, INTERVAL -30 DAY), DATEDIFF(sign_up_day,'2010-01-01') FROM member; 
+SELECT email, sign_up_day, DATE_SUB(sign_up_day, INTERVAL -30 DAY), DATEDIFF(sign_up_day,'2010-01-01') FROM member;  -- DATEDIFF()의 두번째 인자는 년-월-일 형식으로 써야한다.
 SELECT email, sign_up_day, UNIX_TIMESTAMP(sign_up_day) FROM member; 
 SELECT email, sign_up_day, FROM_UNIXTIME(UNIX_TIMESTAMP(sign_up_day)) FROM member;
 ```
