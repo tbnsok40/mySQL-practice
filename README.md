@@ -271,7 +271,7 @@ ON i.id = s.item_id;
 > ON pcc.id = s.menu_id
 > ```
 
-### UNION
+### UNION : 합치려는 테이블간의 컬럼 수가 같을 때 사용할 수 있다.
 - item 테이블과, new_item 테이블이 있을 때, item table에 있는 상품이 빠짐없이 new_item 에 있을지 확신이 안든다면
 - JOIN을 사용한다.
 - UNION과 UNION ALL은 두 테이블을 합친다는 공통점은 있지만, 두 테이블의 중복 row를 제거하는지 여부에 따른 차이가 있다.
@@ -352,7 +352,8 @@ SELECT
 id,
 name,
 price,
-(SELECT AVG(price) FROM item) AS AVG_price
+-- 그냥 AVG(price)를 넣으면, item 테이블의 첫번째 row만 리턴된다
+(SELECT AVG(price) FROM item) AS AVG_price --AVG_price라는 컬럼을 만들어, AVG(price)값을 모두 넣어준다
 FROM item;
 ```
 
