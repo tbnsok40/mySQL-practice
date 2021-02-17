@@ -256,3 +256,14 @@ DROP FOREIGN KEY fk_review_table;
 - 데이터를 컴퓨터의 '저장장치'에 어떤 방식으로 저장할지에 관한 설계사항 => 일반 개발자나 사용자가 다룰 일이 거의 없다 (MySQL, Oracle과 같은 DBMS를 만드는 개발자들이 다루는 개념)
 - 즉, 똑같은 개념적 스키마라도, 사용하는 DBMS에 따라 해당 물리적 스키마는 전혀 달라진다 (같은 데이터라도 컴퓨터에 실제로 어떻게 저장할지는 DBMS에 따라 다르기에)
 - 바로 이 물리적 스키마 부분에서 각 DBMS만의 장단점, 특성들이 드러나게 되는 것입니다.
+
+
+
+<hr/>
+
+> UPDATE 테이블명 SET 컬럼명 WHERE 조건
+- 어떤 컬럼의 값이 A라면 해당 로우의 다른 컬럼 값을 B로 통일 시킬 수 있는 방법
+```sql
+update expertsearching.t_address_code SET jurisdiction_court_code = '1100' WHERE jurisdiction_court_name =  '서울중앙지방법원';
+update expertsearching.t_address_code SET jurisdiction_court_code = '1101' WHERE jurisdiction_court_name =  '서울서부지방법원';
+```
