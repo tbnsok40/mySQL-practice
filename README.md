@@ -476,4 +476,25 @@ SELECT * FROM v_emp;
 > DESCRIBE item;
 > -- item은 table이름
 
-4. Foreign Key 파익
+4. Foreign Key 파악
+
+<hr/>
+
+where절 대신 having 절 사용하여 해결
+> where절, having절 차이 및 특징
+
+1. having절은 항상 group by 뒤에 위치, where절은 group by 앞에 위치.
+- 이유는, having 절은 **group by된** 이후 특정한 필드로 그룹화 된 테이블에 조건을 주기 때문이다.
+
+2. where절에도 물론 group by 절이 올 수 있다. 
+- 다만, where 절이 먼저 나오는 만큼, where 조건에 맞는 정보를 우선 필터한 후 group by로 그룹화 한다.
+- 반대로 having 절은 group by가 먼저 나오는 만큼, group화 된 상태에서 having절에 맞는 조건을 필터링한다. 이 때 having 조건절에 이용한 컬럼은 반드시 select에 명시되어야 한다.
+
+```sql
+select NAME, COUNT(NAME) as COUNT from ANIMAL_INS GROUP BY NAME HAVING COUNT(NAME) > 1 ORDER BY NAME;
+
+
+select date_format(datetime, '%H') as HOUR, COUNT(datetime) as COUNT from animal_outs where date_format(datetime, '%H') >= 9 and date_format(datetime, '%H') <= 19 group by hour order by hour asc;
+```
+
+
